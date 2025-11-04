@@ -4,3 +4,5 @@ const Config = {
   // We can add staging/prod variants here
 };
 
+export default Config;
+
