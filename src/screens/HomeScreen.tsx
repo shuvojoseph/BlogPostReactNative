@@ -18,11 +18,16 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.actionsRow}>
-        <Button title="Add Blog" onPress={() => navigation.navigate('AddEditBlog' as any)} />
-        {!user ? (
-          <Button title="Register / Login" onPress={() => navigation.navigate('Login' as any)} />
+        {user ? (
+          <>
+            <Button title="Add Blog" onPress={() => navigation.navigate('AddEditBlog')} />
+            <Button title="Logout" onPress={logout} />
+          </>
         ) : (
-          <Button title="Logout" onPress={() => { logout(); }} />
+          <>
+            <Button title="Login" onPress={() => navigation.navigate('Login')} />
+            <Button title="Register" onPress={() => navigation.navigate('Register')} />
+          </>
         )}
       </View>
 
