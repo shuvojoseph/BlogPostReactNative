@@ -1,10 +1,25 @@
+
+import React from 'react';
+import AppNavigator from './src/navigation/AppNavigator';
+import { AuthProvider } from './src/viewmodels/useAuth';
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppNavigator />
+    </AuthProvider>
+  );
+};
+
+export default App;
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  *
  * @format
  */
-
+/*
 import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import {
@@ -43,3 +58,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+*/
