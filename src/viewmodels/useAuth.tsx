@@ -5,6 +5,7 @@ import { LoginPayload, RegisterPayload } from '../models/auth';
 
 interface AuthContextType {
   user: any | null;
+  token: string | null;
   loading: boolean;
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     })();
   }, []);
 
+  /*
   const login = async (payload: LoginPayload) => {
     const res = await authService.login(payload.email,payload.password);
     if (res.token && res.refreshToken) {
@@ -41,23 +44,88 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     }
   };
+*/
+/*
+  const login = async (payload: LoginPayload) => {
+    try {
+      const response = await authService.login(payload.email, payload.password);
+      const { user: userData, token: authToken } = response.data;
+
+      setUser(userData);
+      setToken(authToken);
+
+      await AsyncStorage.setItem('user', JSON.stringify(userData));
+      await AsyncStorage.setItem('token', authToken);
+    } catch (error) {
+      throw error;
+    }
+  };
+  */
+
+  const login = async (payload: LoginPayload) => {
+  try {
+    // authService.login already returns the parsed response body (res.data).
+    // We should not use response.data here unless authService returns the raw axios response.
+    const res = await authService.login(payload.email, payload.password);
+
+    // expected shape: { token: string, refreshToken: string, user?: { ... } }
+    const token = res.token ?? res.accessToken ?? null;
+    const refreshToken = res.refreshToken ?? null;
+    const userFromApi = res.user ?? res;
+
+    if (!token || !refreshToken) {
+      // If backend returned 401/400, authService.login should throw.
+      // But if it returned some unexpected shape, surface a clear error.
+      throw new Error('Login response does not contain tokens.');
+    }
+
+    // Persist tokens + user in your storage wrapper (used by apiClient)
+    await storage.setAccessToken(token);
+    await storage.setRefreshToken(refreshToken);
+
+    if (userFromApi && typeof userFromApi === 'object') {
+      await storage.setUser(userFromApi);
+      setUser(userFromApi);
+    } else {
+      setUser(null);
+    }
+
+    return res; 
+  } catch (err: any) {
+    // Normalize error so UI can show a friendly message
+    // If axios threw, err.response?.data may contain useful message
+    const serverMessage = err?.response?.data?.message || err?.message || 'Login failed';
+    // rethrow an Error so the screen's try/catch can show it
+    throw new Error(serverMessage);
+  }
+};
 
   const register = async (payload: RegisterPayload) => {
     await authService.register(payload);
     // optionally auto-login after registration
   };
-
+  
+  
   const logout = async () => {
     try {
       await authService.logout();
-    } catch (e) { /* ignore server error */ }
+    } catch (e) {   }
     await storage.clearTokens();
     await storage.setUser(null as any);
     setUser(null);
   };
 
+  /*
+  const logout = async () => {
+    setUser(null);
+    setToken(null);
+    //await AsyncStorage.removeItem('user');
+    //await AsyncStorage.removeItem('token');
+  };
+  */
+ 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, token, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
