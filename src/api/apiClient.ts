@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import Config from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from '../utils/storage';
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: Config.API_BASE_URL,
@@ -9,7 +10,8 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    const token = await AsyncStorage.getItem('accessToken');
+    //const token = await AsyncStorage.getItem('accessToken');
+    const token = await storage.getAccessToken();
     if (token) {
       config.headers = {
         ...config.headers,
