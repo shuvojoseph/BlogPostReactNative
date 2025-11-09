@@ -82,14 +82,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Persist tokens + user in your storage wrapper (used by apiClient)
     await storage.setAccessToken(token);
     await storage.setRefreshToken(refreshToken);
+    
+    const userFromLogin = {
+      email: payload.email,
+    };
 
-    if (userFromApi && typeof userFromApi === 'object') {
-      await storage.setUser(userFromApi);
-      setUser(userFromApi);
-    } else {
-      setUser(null);
-    }
-
+    await storage.setUser(userFromLogin);
+    setUser(userFromLogin);
+  
     return res; 
   } catch (err: any) {
     // Normalize error so UI can show a friendly message
@@ -102,7 +102,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (payload: RegisterPayload) => {
     await authService.register(payload);
-    // optionally auto-login after registration
   };
   
   
@@ -114,15 +113,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await storage.setUser(null as any);
     setUser(null);
   };
-
-  /*
-  const logout = async () => {
-    setUser(null);
-    setToken(null);
-    //await AsyncStorage.removeItem('user');
-    //await AsyncStorage.removeItem('token');
-  };
-  */
  
   return (
     <AuthContext.Provider value={{ user, loading, token, login, register, logout }}>

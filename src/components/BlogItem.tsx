@@ -1,11 +1,18 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import { storage } from '../utils/storage';
 
 const BlogItem = ({ blog, currentUser, onEdit, onDelete }: any) => {
   const isOwnerOrCoOwner = () => {
+   //console.log(" blog: ", blog);
+   //console.log("currentUserEmail : ", currentUser);
+   //console.log("blog.owners : ", blog.owners);
+    
     if (!currentUser) return false;
-    if (blog.ownerId === currentUser.id) return true;
-    if (blog.coOwners && blog.coOwners.some((u: any) => u.id === currentUser.id)) return true;
+    if (Array.isArray(blog.owners)) {
+      return blog.owners.some((owner: any) => owner.email === currentUser.email);
+  }
     return false;
   };
 
