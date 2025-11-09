@@ -28,8 +28,11 @@ const LoginScreen = () => {
         onSubmit={async (values, { setSubmitting }) => {
           try {
             await login(values);
-            //navigation.navigate('Home' as any);
-            navigation.navigate('Home');
+            
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' as never }],
+            });
           } catch (e) {
             Alert.alert('Invalid credentials');
           } finally { setSubmitting(false); }
@@ -47,7 +50,7 @@ const LoginScreen = () => {
         )}
       </Formik>
     </View>
-    
+
   );
 };
 
