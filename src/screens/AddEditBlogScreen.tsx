@@ -22,6 +22,7 @@ const AddEditBlogScreen: React.FC = () => {
     (async () => {
       try {
         const u = await getAllUsers();
+        //console.log("Users : ",u);
         setUsers(u);
       } catch (e) {
         // handle
@@ -76,7 +77,7 @@ const AddEditBlogScreen: React.FC = () => {
                 }}
               >
                 <Picker.Item label="Select co-owner..." value={''} />
-                {users.map((u) => <Picker.Item key={u.id} label={`${u.firstName} ${u.lastName}`} value={u.id} />)}
+                {users.map((u) => <Picker.Item key={u.id} label={`${u.username}`} value={u.id} />)}
               </Picker>
 
               <View style={{ marginVertical: 8 }}>
