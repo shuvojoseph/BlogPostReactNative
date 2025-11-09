@@ -1,7 +1,7 @@
-import * as authService from '../../../src/api/authService';
-import apiClient from '../../../src/api/apiClient';
+import * as authService from '../../src/api/authService';
+import apiClient from '../../src/api/apiClient';
 
-jest.mock('../../../src/api/apiClient');
+jest.mock('../../src/api/apiClient');
 
 describe('authService', () => {
   it('calls login API with email and password', async () => {

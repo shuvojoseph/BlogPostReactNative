@@ -1,7 +1,7 @@
-import blogService from '../../../src/api/blogService';
-import apiClient from '../../../src/api/apiClient';
+import blogService from '../../src/api/blogService';
+import apiClient from '../../src/api/apiClient';
 
-jest.mock('../../../src/api/apiClient');
+jest.mock('../../src/api/apiClient');
 
 describe('blogService', () => {
   it('fetches all blogs', async () => {
