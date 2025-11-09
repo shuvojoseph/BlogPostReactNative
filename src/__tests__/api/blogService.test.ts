@@ -1,14 +1,7 @@
-describe('blogService', () => {
-  test('dummy', () => {
-    expect(true).toBe(true);
-  });
-});
-
-/*
 import blogService from '../../../src/api/blogService';
 import apiClient from '../../../src/api/apiClient';
 
-jest.mock('../../src/api/apiClient');
+jest.mock('../../../src/api/apiClient');
 
 describe('blogService', () => {
   it('fetches all blogs', async () => {
@@ -26,4 +19,4 @@ describe('blogService', () => {
     expect(blog.title).toBe('New Blog');
   });
 });
-*/
+

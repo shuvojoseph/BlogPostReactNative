@@ -1,14 +1,7 @@
-describe('authService', () => {
-  test('dummy', () => {
-    expect(true).toBe(true);
-  });
-});
-
-/*
 import * as authService from '../../../src/api/authService';
 import apiClient from '../../../src/api/apiClient';
 
-jest.mock('../../src/api/apiClient');
+jest.mock('../../../src/api/apiClient');
 
 describe('authService', () => {
   it('calls login API with email and password', async () => {
@@ -18,4 +11,3 @@ describe('authService', () => {
     expect(res.token).toBe('abc');
   });
 });
-*/

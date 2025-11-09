@@ -6,6 +6,9 @@ module.exports = {
 
 module.exports = {
   preset: 'react-native',
+  setupFiles: [
+    './jestSetup.js'
+  ],
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|@react-native-community|@react-native-masked-view|react-clone-referenced-element|react-navigation|@react-navigation/.*)',
   ],
