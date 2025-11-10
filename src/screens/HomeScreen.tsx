@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import { useBlogViewModel } from '../viewmodels/useBlogViewModel';
 import { useAuth } from '../viewmodels/useAuth';
 import BlogItem from '../components/BlogItem';
@@ -10,28 +10,42 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 const HomeScreen: React.FC = () => {
   const { blogs, loading, fetchBlogs, deleteBlog } = useBlogViewModel();
   const { user, logout } = useAuth();
-  //const navigation = useNavigation();
 
   type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   return (
     <View style={styles.container}>
-      <View style={styles.actionsRow}>
-        {user ? (
-          <>
-            <Button title="Add Blog" onPress={() => navigation.navigate('AddEditBlog')} />
-            <Button title="Logout" onPress={logout} />
-          </>
-        ) : (
-          <>
-            <Button title="Login" onPress={() => navigation.navigate('Login')} />
-            <Button title="Register" onPress={() => navigation.navigate('Register')} />
-          </>
-        )}
+      <View style={styles.header}>
+        <Text style={styles.welcomeText}>
+          {user ? `Welcome, ${user.firstName || user.email}` : 'Welcome to BlogApp'}
+        </Text>
+        <View style={styles.actionsRow}>
+          {user ? (
+            <>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddEditBlog')}>
+                <Text style={styles.buttonText}>Add Blog</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={logout}>
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
       </View>
 
-      {loading ? <ActivityIndicator /> : (
+      {loading ? (
+        <ActivityIndicator style={{ marginTop: 20 }} size="large" color="#007AFF" />
+      ) : (
         <FlatList
           data={blogs}
           keyExtractor={(item) => item.id}
@@ -47,6 +61,7 @@ const HomeScreen: React.FC = () => {
           )}
           refreshing={loading}
           onRefresh={fetchBlogs}
+          contentContainerStyle={{ paddingVertical: 8 }}
         />
       )}
     </View>
@@ -54,8 +69,18 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 12 },
-  actionsRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
+  container: { flex: 1, backgroundColor: '#fff', padding: 16 },
+  header: { marginBottom: 16 },
+  welcomeText: { fontSize: 18, fontWeight: '600', marginBottom: 8, color: '#333' },
+  actionsRow: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  logoutButton: { backgroundColor: '#FF3B30' },
+  buttonText: { color: '#fff', fontWeight: '600' },
 });
 
 export default HomeScreen;
