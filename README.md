@@ -1,6 +1,3 @@
-## 🧾 **README.md for React Native BlogPost App**
-
-````markdown
 # 📱 BlogPost - React Native (TypeScript)
 
 A simple yet complete **React Native app built with TypeScript**, demonstrating clean architecture using MVVM pattern, authentication, and CRUD functionality for managing blog posts.
