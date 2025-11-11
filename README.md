@@ -222,6 +222,24 @@ Modern UI using built-in `StyleSheet` with rounded inputs, blue accent buttons, 
 
 ---
 
+## 📱 Screenshots
+
+### 🧭 Login & Register Screens
+
+| iOS | Android |
+|-----|----------|
+| ![iOS Login](./Screenshots/iOS_Login.png) | ![Android Login](./Screenshots/Android_Login.png) |
+| ![iOS Register](./Screenshots/iOS_Register.png) | ![Android Register](./Screenshots/Android_Register.png) |
+
+### 🏠 Home Screen
+
+| iOS | Android |
+|-----|----------|
+| ![iOS Home](./Screenshots/iOS_HomeScreen.png) | ![Android Home](./Screenshots/Android_HomeScreen.png) |
+
+
+---
+
 ## 🧰 Tech Stack
 
 | Category   | Library                             |
@@ -260,6 +278,16 @@ This project demonstrates:
 ✅ **All tests passing**
 ✅ **Runs on iOS & Android**
 ✅ **Ready for public showcase**
+
+---
+
+## Backend Notes
+
+* The backend is hosted on Render and may go inactive after ~45 minutes of inactivity.
+* If the backend is inactive, it may take ~2 minutes to start again.
+* To activate the backend before using the app, open this link in a browser:
+  [https://blogpostspringboot.onrender.com/api/blogs](https://blogpostspringboot.onrender.com/api/blogs)
+* Once the backend is active, you can use the mobile app to fetch or post blogs.
 
 ---
 
