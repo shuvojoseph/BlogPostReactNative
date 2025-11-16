@@ -32,36 +32,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     })();
   }, []);
 
-  /*
-  const login = async (payload: LoginPayload) => {
-    const res = await authService.login(payload.email,payload.password);
-    if (res.token && res.refreshToken) {
-      await storage.setAccessToken(res.token);
-      await storage.setRefreshToken(res.refreshToken);
-      if (res.user) {
-        await storage.setUser(res.user);
-        setUser(res.user);
-      }
-    }
-  };
-*/
-/*
-  const login = async (payload: LoginPayload) => {
-    try {
-      const response = await authService.login(payload.email, payload.password);
-      const { user: userData, token: authToken } = response.data;
-
-      setUser(userData);
-      setToken(authToken);
-
-      await AsyncStorage.setItem('user', JSON.stringify(userData));
-      await AsyncStorage.setItem('token', authToken);
-    } catch (error) {
-      throw error;
-    }
-  };
-  */
-
   const login = async (payload: LoginPayload) => {
   try {
     // authService.login already returns the parsed response body (res.data).
